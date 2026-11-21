@@ -24,7 +24,8 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install ruff pytest
+          # The fast tests import project code (fastavro, requests, ...), so install the runtime deps too.
+          pip install -r requirements.txt ruff pytest
 
       - name: Lint with ruff
         run: |
