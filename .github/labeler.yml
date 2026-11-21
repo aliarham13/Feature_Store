@@ -1,0 +1,14 @@
+documentation:
+  - any: ['docs/**/*', 'README.md', 'CONTRIBUTING.md', '**/*.md']
+
+frontend:
+  - any: ['web/**/*']
+
+backend:
+  - any: ['eddy/**/*', 'spark/**/*', 'schemas/**/*']
+
+devops:
+  - any: ['docker/**/*', 'docker-compose.yml', 'Makefile', '.github/**/*']
+
+tests:
+  - any: ['tests/**/*']

@@ -1,0 +1,24 @@
+name: Stale Inactive Issues and PRs
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs daily at midnight UTC
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v9
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          days-before-stale: 14
+          days-before-close: 7
+          stale-issue-message: '👋 This issue has had no activity for 14 days. Are you still working on this? It will be closed in 7 days if there is no further update.'
+          stale-pr-message: '👋 This pull request has had no activity for 14 days. Please let us know if you need help getting it merged!'
+          stale-issue-label: 'stale'
+          stale-pr-label: 'stale'
