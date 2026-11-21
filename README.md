@@ -79,8 +79,8 @@ flowchart LR
 **Requirements:** Docker with Compose v2 (Docker Desktop or Rancher Desktop both work) and about 6 GB RAM free.
 
 ```bash
-git clone https://github.com/rohithprem18/eddy.git
-cd eddy
+git clone https://github.com/midhunsomu/Feature_Store
+cd Feature_Store
 cp .env.example .env
 docker compose up -d --build
 ```
