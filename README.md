@@ -11,6 +11,12 @@
   <img src="https://img.shields.io/badge/license-MIT-green" alt="MIT license">
 </p>
 
+---
+<p align="center">
+  ⭐ <b>If you find this project useful, please consider giving it a star on GitHub!</b>
+</p>
+---
+
 # Eddy
 
 **Event-time features with sub-millisecond serving.** Producers stream user events into Kafka as Avro, with every record checked against a contract in Confluent Schema Registry. Spark Structured Streaming turns the stream into per-user sliding-window features, and a Redis online store serves them in milliseconds through a FastAPI endpoint and a React console. Everything runs with one `docker compose up`.
