@@ -1,0 +1,60 @@
+name: Auto Assign Issue
+
+# 1. Listen for new comments on issues
+on:
+  issue_comment:
+    types: [created]
+
+# 2. Grant permissions to write/edit issues
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  auto-assign:
+    runs-on: ubuntu-latest
+    
+    # 3. Only run if it's an issue (not a PR) and comment contains trigger words
+    if: |
+      !github.event.issue.pull_request &&
+      (
+        contains(github.event.comment.body, '/assign') ||
+        contains(github.event.comment.body, '.take') ||
+        contains(github.event.comment.body, 'please assign')
+      )
+    steps:
+      - name: Assign commenter to issue
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const commenter = context.payload.comment.user.login;
+            const issueNumber = context.payload.issue.number;
+            const assignees = context.payload.issue.assignees.map(a => a.login);
+
+            // Check if someone is already assigned
+            if (assignees.length > 0) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                body: `⚠️ @${commenter}, this issue is already assigned to @${assignees.join(', @')}. Please check other open issues!`
+              });
+              return;
+            }
+
+            // Assign the person who commented
+            await github.rest.issues.addAssignees({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              assignees: [commenter]
+            });
+
+            // Post a helpful confirmation message
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: `🎉 @${commenter}, this issue has been automatically assigned to you! Please check CONTRIBUTING.md for guidelines.`
+            });
