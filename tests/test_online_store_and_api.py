@@ -199,7 +199,7 @@ def test_api_get_features_encoded_traversal_stays_on_the_features_route(client):
         pytest.param({"user_ids": [None]}, id="null"),
         pytest.param({"user_ids": [{"id": "u1"}]}, id="object"),
         pytest.param({"user_ids": [["u1"]]}, id="nested-list"),
-        pytest.param({"user_ids": ["a" * 1001]}, id="over-1000-chars"),
+        pytest.param({"user_ids": ["a" * 256]}, id="over-255-chars"),
         pytest.param({"user_ids": "u1"}, id="not-a-list"),
         pytest.param({}, id="missing-key"),
     ],
